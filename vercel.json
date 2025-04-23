@@ -5,9 +5,5 @@
   "outputDirectory": ".next",
   "regions": ["iad1"],
   "redirects": [],
-  "headers": [],
-  "env": {
-    "GEMINI_API_KEY": "@gemini_api_key",
-    "REPLICATE_API_TOKEN": "@replicate_api_token"
-  }
+  "headers": []
 } 
