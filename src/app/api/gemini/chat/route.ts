@@ -4,6 +4,12 @@ export const runtime = "edge";
 
 // Get API key from environment variables
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+console.log('Environment vars check:', { 
+  hasKey: !!GEMINI_API_KEY, 
+  keyLength: GEMINI_API_KEY ? GEMINI_API_KEY.length : 0,
+  firstFewChars: GEMINI_API_KEY ? GEMINI_API_KEY.substring(0, 3) + '...' : 'none'
+});
+
 const MODEL = 'gemini-2.0-flash';
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${GEMINI_API_KEY}`;
 
@@ -34,8 +40,16 @@ const fetchWithTimeout = async (url: string, options: RequestInit, timeout = 300
 export async function POST(req: Request) {
   // Check if API key is configured
   if (!GEMINI_API_KEY) {
+    console.error('API key missing! Make sure GEMINI_API_KEY is set in your environment variables.');
+    const envVars = Object.keys(process.env).filter(key => !key.includes('SECRET') && !key.includes('TOKEN') && !key.includes('KEY'));
+    
     return NextResponse.json({ 
-      error: "Gemini API key is not configured. Please set the GEMINI_API_KEY environment variable."
+      error: "Gemini API key is not configured. Please set the GEMINI_API_KEY environment variable.",
+      debug: {
+        availableEnvVars: envVars,
+        runningIn: process.env.VERCEL_ENV || 'unknown',
+        region: process.env.VERCEL_REGION || 'unknown'
+      }
     }, { status: 500 });
   }
   
