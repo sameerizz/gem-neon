@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Chat from './Chat';
 import { useChat } from '../lib/contexts/ChatContext';
 
 export default function ChatLayout() {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  // Start with collapsed sidebar by default
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(true);
   const { chats, currentChatId, createNewChat, switchChat, deleteChat, getCurrentChat } = useChat();
 
   const toggleSidebar = () => {

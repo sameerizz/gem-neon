@@ -2,8 +2,12 @@ import { NextResponse } from 'next/server';
 
 export const runtime = "edge";
 
-// Get API key from environment variables
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+// Try multiple possible environment variable names
+const GEMINI_API_KEY = 
+  process.env.GEMINI_API_KEY || 
+  process.env.NEXT_PUBLIC_GEMINI_API_KEY ||
+  process.env.gemini_api_key; // Try lowercase version too
+
 console.log('Environment vars check:', { 
   hasKey: !!GEMINI_API_KEY, 
   keyLength: GEMINI_API_KEY ? GEMINI_API_KEY.length : 0,

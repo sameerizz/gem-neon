@@ -33,6 +33,9 @@ export default function Chat() {
   // Get current messages from context
   const currentChat = getCurrentChat();
   const messages = currentChat?.messages || [];
+  
+  // Check if we should center the input (no messages)
+  const shouldCenterInput = messages.length === 0 && !isLoading;
 
   // Enhanced smooth scrolling function
   const scrollToBottom = (behavior: ScrollBehavior = 'smooth') => {
@@ -372,54 +375,78 @@ export default function Chat() {
 
   // Render Messages and the chat input
   return (
-    <div className="flex flex-col h-full w-full max-h-full">
-      <div 
-        ref={messageContainerRef} 
-        className="flex-1 overflow-y-auto custom-scrollbar"
-      >
-        {messages.map((message) => (
-          <Message
-            key={message.id}
-            messageId={message.id}
-            content={message.content}
-            role={message.role}
-            isTyping={message.id === typingMessageId}
-            displayedContent={message.id === typingMessageId ? displayedContent : undefined}
-            imageUrl={message.imageUrl}
-            onRetry={message.role === 'user' ? handleRetryMessage : undefined}
-          />
-        ))}
-        
-        {/* Loading indicator when sending/receiving messages */}
-        {isLoading && !typingMessageId && (
-          <div className="flex justify-center items-center py-10">
-            <div className="flex flex-col items-center">
-              <div className="h-5 w-5 relative mb-3">
-                <div className="animate-ping absolute h-5 w-5 rounded-full bg-[rgba(255,154,108,0.4)]"></div>
-                <div className="relative h-5 w-5 rounded-full bg-[rgba(255,154,108,0.7)]"></div>
-              </div>
-              <span className="capitalize text-transparent bg-clip-text bg-gradient-to-r from-orange-300 via-orange-500 to-pink-500 font-medium text-lg animate-pulse">
-                {loadingTexts[loadingTextIndex]}...
-              </span>
+    <div className="flex flex-col h-full relative">
+      {shouldCenterInput ? (
+        // Centered welcome screen with input for new chat
+        <div className="flex items-center justify-center h-full">
+          <div className="w-full max-w-[640px] px-4 transform -translate-y-16">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold neon-teal mb-2">Welcome to Gemini 2.0 Flash</h2>
+              <p className="text-[rgba(229,231,235,0.7)] mb-2">Ask me anything or upload an image to analyze</p>
             </div>
+            <ChatInput 
+              onSendMessage={handleSendMessage} 
+              isLoading={isLoading} 
+            />
           </div>
-        )}
-        
-        {/* Error message display */}
-        {error && (
-          <div className="py-4">
-            <ErrorRecovery error={error} onReset={resetError} />
+        </div>
+      ) : (
+        // Regular chat layout with messages and input at bottom
+        <>
+          <div 
+            ref={messageContainerRef}
+            className="flex-1 overflow-y-auto pb-2 custom-scrollbar"
+          >
+            <div className="space-y-4">
+              {messages.map((message) => (
+                <Message
+                  key={message.id}
+                  messageId={message.id}
+                  content={message.id === typingMessageId ? displayedContent : message.content}
+                  role={message.role}
+                  isTyping={message.id === typingMessageId}
+                  displayedContent={message.id === typingMessageId ? displayedContent : undefined}
+                  imageUrl={message.imageUrl}
+                  onRetry={message.role === 'user' ? handleRetryMessage : undefined}
+                />
+              ))}
+              
+              {/* Loading indicator */}
+              {isLoading && !typingMessageId && (
+                <div className="flex justify-center items-center py-10">
+                  <div className="flex flex-col items-center">
+                    <div className="h-5 w-5 relative mb-3">
+                      <div className="animate-ping absolute h-5 w-5 rounded-full bg-[rgba(255,154,108,0.4)]"></div>
+                      <div className="relative h-5 w-5 rounded-full bg-[rgba(255,154,108,0.7)]"></div>
+                    </div>
+                    <span className="capitalize text-transparent bg-clip-text bg-gradient-to-r from-orange-300 via-orange-500 to-pink-500 font-medium text-lg animate-pulse">
+                      {loadingTexts[loadingTextIndex]}...
+                    </span>
+                  </div>
+                </div>
+              )}
+              
+              {/* Error message */}
+              {error && (
+                <div className="py-4">
+                  <ErrorRecovery error={error} onReset={resetError} />
+                </div>
+              )}
+            </div>
+            
+            {/* Empty div for scrolling to the end of messages */}
+            <div ref={messagesEndRef} />
           </div>
-        )}
-        
-        {/* Empty div for scrolling reference */}
-        <div ref={messagesEndRef} />
-      </div>
-
-      <ChatInput 
-        onSendMessage={handleSendMessage} 
-        isLoading={isLoading} 
-      />
+          
+          {/* Fixed position chat input at bottom */}
+          <div>
+            <ChatInput 
+              onSendMessage={handleSendMessage} 
+              isLoading={isLoading} 
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 } 
