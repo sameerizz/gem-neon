@@ -1,0 +1,294 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 229, 231, 235;
+  --background-rgb: 6, 27, 43;
+  --neon-teal: 45, 226, 230;
+  --neon-orange: 255, 154, 108;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  min-height: 100vh;
+  background-image: url('/bg.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(6, 27, 43, 0.3); /* Reduced opacity to make background more visible */
+  z-index: -1;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Sidebar transition effects */
+.sidebar-transition {
+  transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.sidebar-collapsed {
+  width: 16px;
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.sidebar-expanded {
+  width: 320px;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.sidebar-mini {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(6, 27, 43, 0.5);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(45, 226, 230, 0.3);
+  border-radius: 10px;
+  border: 1px solid rgba(45, 226, 230, 0.5);
+  box-shadow: 0 0 6px rgba(45, 226, 230, 0.5) inset;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(45, 226, 230, 0.5);
+  box-shadow: 0 0 8px rgba(45, 226, 230, 0.8) inset;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox scrollbar support */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(45, 226, 230, 0.4) rgba(6, 27, 43, 0.5);
+}
+
+/* Add smooth textarea resizing */
+textarea {
+  transition: height 0.2s ease;
+}
+
+/* Faster cursor animation */
+@keyframes fast-blink {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+.cursor-blink {
+  animation: fast-blink 0.5s ease-in-out infinite;
+}
+
+/* Neon text effects */
+.neon-teal {
+  color: rgb(45, 226, 230);
+  text-shadow: 0 0 10px rgba(45, 226, 230, 0.8), 0 0 20px rgba(45, 226, 230, 0.5);
+}
+
+.neon-orange {
+  color: rgb(255, 154, 108);
+  text-shadow: 0 0 10px rgba(255, 154, 108, 0.8), 0 0 20px rgba(255, 154, 108, 0.5);
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, rgb(255, 154, 108) 0%, rgb(45, 226, 230) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 10px rgba(45, 226, 230, 0.3);
+}
+
+/* Cyber borders */
+.cyber-border {
+  border: 1px solid rgba(45, 226, 230, 0.4);
+  box-shadow: 0 0 5px rgba(45, 226, 230, 0.4);
+}
+
+/* Markdown formatting */
+.prose {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.prose p {
+  margin-bottom: 1em;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  font-weight: 600;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: rgb(45, 226, 230);
+}
+
+.prose code {
+  font-family: monospace;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 0.9em;
+  color: rgb(45, 226, 230);
+  border: 1px solid rgba(45, 226, 230, 0.3);
+}
+
+.prose pre {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 1em;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+  border: 1px solid rgba(45, 226, 230, 0.2);
+  position: relative; /* Ensure proper positioning for copy button */
+}
+
+.prose pre code {
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  display: block;
+  width: 100%;
+}
+
+/* Code copy button styles */
+.code-copy-button {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+/* Show code copy button on pre:hover */
+.prose pre:hover .code-copy-button {
+  opacity: 1;
+}
+
+/* Make sure the code blocks have padding for the button */
+.prose pre {
+  padding-right: 2rem;
+}
+
+/* Terminal/command blocks special styling */
+.prose pre code.language-bash,
+.prose pre code.language-sh,
+.prose pre code.language-shell,
+.prose pre code.language-cmd,
+.prose pre code.language-powershell {
+  color: #e9ecef;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.prose pre:has(code.language-bash),
+.prose pre:has(code.language-sh),
+.prose pre:has(code.language-shell),
+.prose pre:has(code.language-cmd),
+.prose pre:has(code.language-powershell) {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 154, 108, 0.3);
+}
+
+/* Add a terminal symbol to command blocks */
+.prose pre:has(code.language-bash)::before,
+.prose pre:has(code.language-sh)::before,
+.prose pre:has(code.language-shell)::before,
+.prose pre:has(code.language-cmd)::before,
+.prose pre:has(code.language-powershell)::before {
+  content: '>';
+  position: absolute;
+  left: 0.5rem;
+  top: 0.5rem;
+  color: rgba(255, 154, 108, 0.9);
+  font-weight: bold;
+}
+
+.prose ul, .prose ol {
+  padding-left: 1.5em;
+  margin-bottom: 1em;
+}
+
+.prose ul {
+  list-style-type: disc;
+}
+
+.prose ol {
+  list-style-type: decimal;
+}
+
+.prose li {
+  margin-bottom: 0.5em;
+}
+
+.prose blockquote {
+  border-left: 3px solid rgba(45, 226, 230, 0.6);
+  padding-left: 1em;
+  margin-left: 0;
+  color: #9ca3af;
+}
+
+/* Glass effect utilities */
+.glass {
+  background: rgba(6, 27, 43, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(45, 226, 230, 0.2);
+  box-shadow: 0 0 10px rgba(45, 226, 230, 0.2);
+}
+
+.glass-darker {
+  background: rgba(0, 10, 20, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(45, 226, 230, 0.2);
+  box-shadow: 0 0 10px rgba(45, 226, 230, 0.2);
+}
+
+/* Tooltip pulse animation for Ctrl+V */
+@keyframes pulse-border {
+  0%, 100% { 
+    border-color: rgba(45, 226, 230, 0.3);
+    box-shadow: 0 0 0 rgba(45, 226, 230, 0);
+  }
+  50% { 
+    border-color: rgba(45, 226, 230, 0.8);
+    box-shadow: 0 0 5px rgba(45, 226, 230, 0.5);
+  }
+}
+
+.pulse-shortcut {
+  animation: pulse-border 2s infinite ease-in-out;
+}
