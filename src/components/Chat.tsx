@@ -381,7 +381,7 @@ export default function Chat() {
         <div className="flex items-center justify-center h-full">
           <div className="w-full max-w-[640px] px-4 transform -translate-y-16">
             <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold neon-teal mb-2">Welcome to Gemini 2.5 Flash</h2>
+              <h2 className="text-2xl font-bold neon-teal mb-2">Welcome to Gemini 3.5 Flash</h2>
               <p className="text-[rgba(229,231,235,0.7)] mb-2">Ask me anything or upload an image to analyze</p>
             </div>
             <ChatInput 
