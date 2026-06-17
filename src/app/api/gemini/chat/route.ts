@@ -14,7 +14,7 @@ console.log('Environment vars check:', {
   firstFewChars: GEMINI_API_KEY ? GEMINI_API_KEY.substring(0, 3) + '...' : 'none'
 });
 
-const MODEL = 'gemini-2.5-flash';
+const MODEL = 'gemini-3.5-flash';
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${GEMINI_API_KEY}`;
 
 // Define message type with optional imageUrl
