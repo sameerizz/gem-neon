@@ -407,7 +407,7 @@ export default function ChatInput({
           <div className="mt-3 flex justify-center">
             <div className="inline-flex items-center px-3 py-1 rounded-full bg-[rgba(45,226,230,0.1)] border border-[rgba(45,226,230,0.3)] text-xs text-[rgba(45,226,230,0.9)]">
               <span className="mr-1.5 h-2 w-2 rounded-full bg-[rgba(45,226,230,0.9)]"></span>
-              Gemini 2.0 Flash
+              Gemini 3.5 Flash (New)
             </div>
           </div>
         </div>
